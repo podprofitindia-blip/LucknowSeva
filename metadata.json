@@ -1,0 +1,6 @@
+{
+  "name": "LucknowSeva - लखनऊ की विश्वसनीय स्थानीय सेवाएं",
+  "description": "लखनऊ सेवा (LucknowSeva) - इलेक्ट्रीशियन, प्लंबर, एसी रिपेयर, बढ़ई, पेंटर, होम ट्यूटर आदि के लिए लखनऊ का अपना विश्वसनीय और सत्यापित सेवा मंच।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

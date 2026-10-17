@@ -1,0 +1,176 @@
+{
+  "entities": {
+    "Booking": {
+      "title": "Booking",
+      "description": "Customer booking request for LucknowSeva home services",
+      "type": "object",
+      "properties": {
+        "bookingId": {
+          "type": "string",
+          "description": "Unique booking identifier, e.g. LKO-20261017-XXXX",
+          "maxLength": 64
+        },
+        "customerName": {
+          "type": "string",
+          "description": "Full name of the customer",
+          "maxLength": 100
+        },
+        "phone": {
+          "type": "string",
+          "description": "10-digit mobile number of the customer",
+          "maxLength": 15
+        },
+        "service": {
+          "type": "string",
+          "description": "Service category requested (e.g., Electrician, Plumber)",
+          "maxLength": 100
+        },
+        "area": {
+          "type": "string",
+          "description": "Lucknow area / locality name",
+          "maxLength": 100
+        },
+        "landmark": {
+          "type": "string",
+          "description": "Nearby landmark or crossroads",
+          "maxLength": 150
+        },
+        "workDetails": {
+          "type": "string",
+          "description": "Description of the job or problem",
+          "maxLength": 1000
+        },
+        "preferredTime": {
+          "type": "string",
+          "description": "Customer's preferred time slot or urgency",
+          "maxLength": 100
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the booking",
+          "enum": ["pending", "confirmed", "assigned", "completed", "cancelled"]
+        },
+        "assignedProviderId": {
+          "type": "string",
+          "description": "ID of assigned verified tradesperson",
+          "maxLength": 100
+        },
+        "assignedProviderName": {
+          "type": "string",
+          "description": "Name of assigned verified tradesperson",
+          "maxLength": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when booking was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when booking was last updated"
+        },
+        "source": {
+          "type": "string",
+          "description": "Origin of booking, e.g. 'web-booking-form'",
+          "maxLength": 50
+        }
+      },
+      "required": [
+        "bookingId",
+        "customerName",
+        "phone",
+        "service",
+        "area",
+        "workDetails",
+        "status",
+        "createdAt"
+      ]
+    },
+    "VerifiedProvider": {
+      "title": "VerifiedProvider",
+      "description": "Owner-verified local service professional in Lucknow",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "verificationCode": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "serviceId": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "serviceNameHi": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "experienceYears": {
+          "type": "number"
+        },
+        "coveredAreas": {
+          "type": "array"
+        },
+        "verificationDate": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "verifiedBy": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "policeVerificationStatus": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "specialization": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 500
+        }
+      },
+      "required": ["id", "verificationCode", "name", "serviceId", "isActive"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Administrator / Booking Manager of LucknowSeva",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "maxLength": 150
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "manager"]
+        }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Customer booking records for Lucknow services"
+    },
+    "/providers/{providerId}": {
+      "schema": "VerifiedProvider",
+      "description": "Owner-verified master tradespersons directory"
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Authorized administrators"
+    }
+  }
+}
