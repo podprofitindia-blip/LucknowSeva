@@ -9,6 +9,10 @@ export interface BookingFormData {
   workDetails: string;
   preferredTime?: string;
   landmark?: string;
+
+  // चुने गए मिस्त्री की जानकारी
+  assignedProviderId?: string;
+  assignedProviderName?: string;
 }
 
 export interface ProviderRegistrationData {
@@ -22,38 +26,45 @@ export interface ProviderRegistrationData {
   notes?: string;
 }
 
-export function generateBookingWhatsAppUrl(data: BookingFormData): string {
-  const message = `*लखनऊ सेवा (LucknowSeva) - नई बुकिंग अनुरोध*
+export function generateBookingWhatsAppUrl(
+  data: BookingFormData,
+  bookingId?: string
+): string {
+  const message = `*लखनऊ सेवा (LucknowSeva) - नई बुकिंग*
 ─────────────────────
-👤 *ग्राहक का नाम:* ${data.customerName.trim()}
-📱 *मोबाइल नंबर:* ${data.phone.trim()}
-📍 *लखनऊ इलाका / क्षेत्र:* ${data.area.trim()}
-${data.landmark?.trim() ? `🏢 *नजदीकी लैंडमार्क:* ${data.landmark.trim()}\n` : ''}🔧 *आवश्यक सेवा:* ${data.service}
-📝 *काम का विवरण:* ${data.workDetails.trim()}
-⏰ *पसंदीदा समय/तारीख:* ${data.preferredTime?.trim() || 'यथाशीघ्र (As soon as possible)'}
+🎫 *बुकिंग आईडी:* ${bookingId || 'बुकिंग आईडी उपलब्ध नहीं'}
+👤 *ग्राहक:* ${data.customerName.trim()}
+📱 *मोबाइल:* ${data.phone.trim()}
+📍 *इलाका:* ${data.area.trim()}
+${data.landmark?.trim() ? `🏢 *लैंडमार्क:* ${data.landmark.trim()}\n` : ''}🔧 *सेवा:* ${data.service}
+👨‍🔧 *चुने गए मिस्त्री:* ${data.assignedProviderName || 'अभी मिस्त्री नहीं चुना गया'}
+🆔 *मिस्त्री ID:* ${data.assignedProviderId || 'अभी निर्धारित नहीं'}
+📝 *काम:* ${data.workDetails.trim()}
+⏰ *पसंदीदा समय:* ${data.preferredTime?.trim() || 'यथाशीघ्र'}
 ─────────────────────
-_कृपया मुझे कॉल करें या व्हाट्सएप पर पुष्टि करें।_`;
+_कृपया ग्राहक से संपर्क करके बुकिंग की पुष्टि करें।_`;
 
   return `https://wa.me/${LUCKNOW_SEVA_WHATSAPP}?text=${encodeURIComponent(message)}`;
 }
 
-export function generateProviderRegistrationWhatsAppUrl(data: ProviderRegistrationData): string {
-  const message = `*लखनऊ सेवा (LucknowSeva) - कारीगर/पार्टनर पंजीकरण*
+export function generateProviderRegistrationWhatsAppUrl(
+  data: ProviderRegistrationData
+): string {
+  const message = `*लखनऊ सेवा - कारीगर पंजीकरण*
 ─────────────────────
-👷‍♂️ *कारीगर का नाम:* ${data.providerName.trim()}
-📱 *मोबाइल नंबर:* ${data.phone.trim()}
-🛠️ *काम का प्रकार (सेवा):* ${data.serviceCategory.trim()}
+👷 *कारीगर का नाम:* ${data.providerName.trim()}
+📱 *मोबाइल:* ${data.phone.trim()}
+🛠️ *सेवा:* ${data.serviceCategory.trim()}
 ⏳ *अनुभव:* ${data.experienceYears.trim()} वर्ष
-📍 *कार्यक्षेत्र (इलाके):* ${data.coveredAreas.trim()}
-🏠 *वर्तमान पता:* ${data.currentAddress.trim()}
-✅ *आधार/पहचान पत्र सत्यापन:* ${data.aadhaarConfirmed ? 'हाँ, सत्यापन हेतु तैयार' : 'अपुष्ट'}
-${data.notes?.trim() ? `💬 *अतिरिक्त विवरण:* ${data.notes.trim()}\n` : ''}─────────────────────
-_सादर, लखनऊ सेवा पार्टनर टीम से जुड़ने हेतु आवेदन।_`;
+📍 *कार्यक्षेत्र:* ${data.coveredAreas.trim()}
+🏠 *पता:* ${data.currentAddress.trim()}
+✅ *पहचान सत्यापन:* ${data.aadhaarConfirmed ? 'सत्यापन हेतु तैयार' : 'अभी अपुष्ट'}
+${data.notes?.trim() ? `💬 *अन्य जानकारी:* ${data.notes.trim()}\n` : ''}─────────────────────
+_लखनऊ सेवा पार्टनर पंजीकरण अनुरोध_`;
 
   return `https://wa.me/${LUCKNOW_SEVA_WHATSAPP}?text=${encodeURIComponent(message)}`;
 }
 
 export function openWhatsAppUrl(url: string): void {
-  // Safe on Android, iOS, and desktop browsers
   window.open(url, '_blank', 'noopener,noreferrer');
 }
